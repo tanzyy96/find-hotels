@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Hotel } from "@/types/hotel";
-import { CardContent, CardFooter, CardHeader, Card } from "./ui/card";
+import { CardContent, Card } from "./ui/card";
 import { Input } from "./ui/input";
-import { RotateCcw, Star } from "lucide-vue-next";
+import { Star } from "lucide-vue-next";
 import {
   Dialog,
   DialogTrigger,
