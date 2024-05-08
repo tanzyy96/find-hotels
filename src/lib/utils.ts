@@ -1,4 +1,4 @@
-import { Hotel } from "@/types/hotel";
+import { Hotel, HotelReview } from "@/types/hotel";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -35,4 +35,10 @@ export const filterAndSort = (hotels: Hotel[], filters: Filter, sort: Sort) => {
         return b.price - a.price;
       }
     });
+};
+
+export const filterSearch = (searchText: string, reviews: HotelReview[]) => {
+  return reviews.filter((review) => {
+    return review.title.toLowerCase().includes(searchText.toLowerCase());
+  });
 };

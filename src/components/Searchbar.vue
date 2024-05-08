@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Input } from "./ui/input";
-import { Card } from "./ui/card";
+import { BaseInput } from "./ui/input";
+import { BaseCard } from "./ui/card";
 import { RotateCcw } from "lucide-vue-next";
-import { Button } from "./ui/button";
+import { BaseButton } from "./ui/button";
 import { PropType } from "vue";
 
 defineProps({
@@ -37,17 +37,17 @@ const setSortPrice = () => {
 };
 </script>
 <template>
-  <Card class="grid grid-cols-1 lg:grid-cols-3 p-4 gap-2">
+  <BaseCard class="grid grid-cols-1 lg:grid-cols-3 p-4 gap-2">
     <div class="col-span-3 flex-row flex items-center gap-2">
       <h2 class="text-xl font-semibold">Filter by</h2>
     </div>
     <div class="flex flex-col">
       <span class="text-xs text-gray-500">Name</span>
-      <Input v-model="name" placeholder="Search name" />
+      <BaseInput v-model="name" placeholder="Search name" />
     </div>
     <div class="flex flex-col">
       <span class="text-xs text-gray-500">Above Rating</span>
-      <Input
+      <BaseInput
         v-model="rating"
         placeholder="Above rating"
         type="number"
@@ -58,24 +58,24 @@ const setSortPrice = () => {
     <div />
     <div class="flex flex-col">
       <span class="text-xs text-gray-500">Min Price</span>
-      <Input v-model="minPrice" placeholder="Min Price" />
+      <BaseInput v-model="minPrice" placeholder="Min Price" />
     </div>
     <div class="flex flex-col">
       <span class="text-xs text-gray-500">Max Price</span>
-      <Input v-model="maxPrice" placeholder="Max Price" />
+      <BaseInput v-model="maxPrice" placeholder="Max Price" />
     </div>
     <div class="flex flex-col">
       <span class="text-xs text-gray-500">Sort price</span>
-      <Button variant="outline" size="sm" @click="setSortPrice">
+      <BaseButton variant="outline" size="sm" @click="setSortPrice">
         {{ sortPrice === "asc" ? "Ascending" : "Descending" }}
-      </Button>
+      </BaseButton>
     </div>
     <div class="mt-4 col-span-3 flex-row flex gap-2">
-      <Button @click="$emit('submit')"> Apply Filters </Button>
-      <Button variant="outline" size="icon" @click="$emit('reset')">
+      <BaseButton @click="$emit('submit')"> Apply Filters </BaseButton>
+      <BaseButton variant="outline" size="icon" @click="$emit('reset')">
         <RotateCcw :size="15" />
-      </Button>
+      </BaseButton>
     </div>
-  </Card>
+  </BaseCard>
 </template>
 <style scoped lang="scss"></style>
