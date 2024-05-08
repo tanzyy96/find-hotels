@@ -15,6 +15,8 @@ import {
   BaseDialogTitle,
   BaseDialogTrigger,
 } from "@/components/ui/dialog";
+import { nextTick } from "vue";
+import { BaseTabs, BaseTabsContent, BaseTabsList } from "@/components/ui/tabs";
 
 const baseComponents = {
   BaseCard: BaseCard,
@@ -29,6 +31,10 @@ const baseComponents = {
   BaseDialogContent: BaseDialogContent,
   BaseDialogScrollContent: BaseDialogScrollContent,
   BaseDialogFooter: BaseDialogFooter,
+  BaseTabs: BaseTabs,
+  BaseTabsList: BaseTabsList,
+  BaseTabsContent: BaseTabsContent,
+  BaseTabsTrigger: BaseDialogTrigger,
 };
 
 test("displays information about hotel", () => {
@@ -97,13 +103,10 @@ test("displays information about hotel with reviews", async () => {
   });
 
   await wrapper.find("button").trigger("click");
-  // We need this tricky bit as the dialog is rendered outside the component
-  const dialogContent = document.querySelector(
-    "[id^='radix-vue-dialog-content-']",
-  )?.innerHTML;
+  const dialog = wrapper.findComponent("[id^='radix-vue-dialog-content-']");
 
-  expect(dialogContent).toContain("Review 1");
-  expect(dialogContent).toContain("Review 2");
+  expect(dialog.html()).toContain("Review 1");
+  expect(dialog.html()).toContain("Review 2");
 });
 
 test("filters reviews by text search", async () => {
@@ -146,20 +149,19 @@ test("filters reviews by text search", async () => {
   });
 
   await wrapper.find("button").trigger("click");
-  const dialogContent = document.querySelector(
-    "[id^='radix-vue-dialog-content-']",
-  );
-  expect(dialogContent).not.toBeNull();
-  const input = dialogContent!.querySelector("input");
-  expect(input).not.toBeNull();
 
   const dialog = wrapper.findComponent("[id^='radix-vue-dialog-content-']");
   const searchInput: DOMWrapper<HTMLInputElement> = dialog.find(
     "[data-testid='search-input']",
   );
   await searchInput.setValue("what we want");
-
   expect(searchInput.element.value).toBe("what we want");
+
+  expect(dialog.html()).toContain("Review 1");
+  expect(dialog.html()).not.toContain("Review 2");
+
+  await searchInput.setValue("review 1");
+  expect(searchInput.element.value).toBe("review 1");
 
   expect(dialog.html()).toContain("Review 1");
   expect(dialog.html()).not.toContain("Review 2");
@@ -205,12 +207,6 @@ test("reset search input by clicking clear button", async () => {
   });
 
   await wrapper.find("button").trigger("click");
-  const dialogContent = document.querySelector(
-    "[id^='radix-vue-dialog-content-']",
-  );
-  expect(dialogContent).not.toBeNull();
-  const input = dialogContent!.querySelector("input");
-  expect(input).not.toBeNull();
 
   const dialog = wrapper.findComponent("[id^='radix-vue-dialog-content-']");
   const searchInput: DOMWrapper<HTMLInputElement> = dialog.find(
@@ -222,4 +218,43 @@ test("reset search input by clicking clear button", async () => {
   const clearBtn = dialog.find("[data-testid='clear-button']");
   await clearBtn.trigger("click");
   expect(searchInput.element.value).toBe("");
+});
+
+test("select description tab to view hotel description", async () => {
+  const wrapper = mount(HotelCard, {
+    global: {
+      components: baseComponents,
+    },
+    props: {
+      hotel: {
+        id: 1,
+        name: "Hotel 1",
+        rating: 4,
+        stars: 4,
+        address: "Address 1",
+        photo: "photo1",
+        price: 100,
+        description: "<p>Description 1</p>",
+        reviews: [
+          {
+            rating: 5,
+            user: {
+              name: "User 1",
+              location: "Location 1",
+            },
+            title: "Review 1",
+            description: "Description 1 has what we want",
+          },
+        ],
+      },
+    },
+  });
+
+  await wrapper.find("button").trigger("click");
+  const dialog = wrapper.findComponent("[id^='radix-vue-dialog-content-']");
+  const descBtn = dialog.find("[data-testid='desc-btn']");
+  console.log("descbtn", descBtn.html());
+
+  await descBtn.trigger("click");
+  expect(dialog.html()).toContain("Description 1");
 });

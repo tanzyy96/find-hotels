@@ -1,9 +1,18 @@
-# Vue 3 + TypeScript + Vite
+# Search hotels
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is a simple project to search hotels by name, price and sort them.
 
-## Recommended Setup
+## How to run
+```
+npm i
+npm start dev
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+## How to test
+```
+npm run test
+```
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+## FAQ
+- What libraries did I use?
+	- I used Vite, Vue 3, TailwindCSS, Vitest and Vue Testing Library. For UI, I used Shadcn-Vue which is a clone of Shadcn UI. These are based on Radix UI component library.

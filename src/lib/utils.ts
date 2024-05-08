@@ -39,6 +39,9 @@ export const filterAndSort = (hotels: Hotel[], filters: Filter, sort: Sort) => {
 
 export const filterSearch = (searchText: string, reviews: HotelReview[]) => {
   return reviews.filter((review) => {
-    return review.title.toLowerCase().includes(searchText.toLowerCase());
+    return (
+      review.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      review.description.toLowerCase().includes(searchText.toLowerCase())
+    );
   });
 };
